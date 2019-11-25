@@ -24,12 +24,12 @@ class galaxy(object):
     cache : Set the hyperleda galaxy html page path, either online or cached.
 
     """
-    def __init__(self, galaxy_name, hl_url=None, cache=False, cache_dir=None):
+    def __init__(self, galaxy_name, hl_url=None, cache=False, cache_dir=None, force_cache=False):
         self.name = galaxy_name
         self.hl_url = hl_url
         if self.hl_url is None:
             self.hl_url = _hl_url
-        self.cache(cache, cache_dir)
+        self.cache(cache, cache_dir, force_cache)
         self.tables = pd.read_html(self.table_path)
         self._props()
 
@@ -47,10 +47,14 @@ class galaxy(object):
         """
         galaxy_hl_url = self.hl_url + self.name
         galaxy_cache_file = f'{cache_dir}/{self.name}_hyperleda_http.html'
-        if cache:
-            urlretrieve(galaxy_hl_url, galaxy_cache_file)
         if not p.exists(galaxy_cache_file):
-            galaxy_cache_file = galaxy_hl_url
+            if cache or force_cache:
+                urlretrieve(galaxy_hl_url, galaxy_cache_file)
+            else:
+                galaxy_cache_file = galaxy_hl_url
+        else:
+            if force_cache:
+                urlretrieve(galaxy_hl_url, galaxy_cache_file)
         self.table_path = galaxy_cache_file
 
     def _props(self):
