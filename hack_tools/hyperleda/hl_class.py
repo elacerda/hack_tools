@@ -8,7 +8,7 @@ class galaxy(object):
     """
     Attributes
     ----------
-    galaxy : string
+    name : string
         The galaxy name.
     hl_url : string
         The hyperleda url.
@@ -25,7 +25,7 @@ class galaxy(object):
 
     """
     def __init__(self, galaxy_name, hl_url=None, cache=False, cache_dir=None):
-        self.galaxy = galaxy_name
+        self.name = galaxy_name
         self.hl_url = hl_url
         if self.hl_url is None:
             self.hl_url = _hl_url
@@ -45,8 +45,8 @@ class galaxy(object):
             The directory whether will store the downloaded page or point
             to the cached one. Default is None.
         """
-        galaxy_hl_url = self.hl_url + self.galaxy
-        galaxy_cache_file = f'{cache_dir}/{self.galaxy}_hyperleda_http.html'
+        galaxy_hl_url = self.hl_url + self.name
+        galaxy_cache_file = f'{cache_dir}/{self.name}_hyperleda_http.html'
         if cache:
             urlretrieve(galaxy_hl_url, galaxy_cache_file)
         if not p.exists(galaxy_cache_file):
