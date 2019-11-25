@@ -33,7 +33,7 @@ class galaxy(object):
         self.tables = pd.read_html(self.table_path)
         self._props()
 
-    def cache(self, cache=False, cache_dir=None):
+    def cache(self, cache=False, cache_dir=None, force_cache=False):
         """
         Set the hyperleda galaxy html page path, either online or cached.
 
